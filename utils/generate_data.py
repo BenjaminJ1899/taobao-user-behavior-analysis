@@ -21,7 +21,7 @@ from datetime import timedelta
 
 # ---- 参数 ----
 TARGET_ROWS = 200_000
-N_USERS = 8000
+N_USERS = 10000
 N_ITEMS = 10000
 N_CATEGORIES = 50
 START_DATE = pd.Timestamp("2017-11-25")
@@ -65,12 +65,12 @@ time_weights /= time_weights.sum()
 #    给定一个用户-商品交互，概率性地生成行为序列
 # ============================================================
 # 每个用户-商品对的行为概率
-P_FAV_AFTER_PV = 0.08    # 浏览后有 8% 概率收藏
-P_CART_AFTER_PV = 0.15   # 浏览后有 15% 概率加购
-P_BUY_AFTER_PV = 0.02    # 浏览后有 2% 概率直接购买（闪电单）
-P_CART_AFTER_FAV = 0.12  # 收藏后有 12% 概率加购
-P_BUY_AFTER_CART = 0.35  # 加购后有 35% 概率购买（关键转化）
-P_BUY_AFTER_FAV = 0.06   # 收藏后有 6% 概率购买（罕见）
+P_FAV_AFTER_PV = 0.05    # 浏览后有 5% 概率收藏
+P_CART_AFTER_PV = 0.10   # 浏览后有 10% 概率加购
+P_BUY_AFTER_PV = 0.01    # 浏览后有 1% 概率直接购买（闪电单）
+P_CART_AFTER_FAV = 0.10  # 收藏后有 10% 概率加购
+P_BUY_AFTER_CART = 0.15  # 加购后有 15% 概率购买
+P_BUY_AFTER_FAV = 0.03   # 收藏后有 3% 概率购买（罕见）
 
 
 def generate_behavior_path():
@@ -125,8 +125,8 @@ for user_idx in range(N_USERS):
 
     # 活跃天数：分级分布（~30% 轻度 / ~40% 中度 / ~30% 重度）
     n_active_days = int(rng.choice(
-        [1, 2, 3, 4, 5, 6, 8, 11, 14],
-        p=[0.20, 0.12, 0.13, 0.13, 0.12, 0.10, 0.08, 0.07, 0.05]
+        [1, 2, 3, 4, 5, 7, 10, 14],
+        p=[0.38, 0.17, 0.12, 0.10, 0.08, 0.07, 0.05, 0.03]
     ))
     # 随机选起始日，连续取 n_active_days 天
     max_start = max(0, len(all_dates) - n_active_days)
